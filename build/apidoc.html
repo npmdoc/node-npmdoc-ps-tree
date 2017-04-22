@@ -61,12 +61,117 @@
 
     <li class="apidocModuleLi"><a href="#apidoc.module.ps-tree">module ps-tree</a><ol>
 
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.ps-tree.ps-tree">
+            function <span class="apidocSignatureSpan"></span>ps-tree
+            <span class="apidocSignatureSpan">(pid, callback)</span>
+            </a>
+
+        </li>
+
     </ol></li>
 
 </ol></div>
 
 <div class="apidocSectionDiv">
 <h1><a href="#apidoc.module.ps-tree" id="apidoc.module.ps-tree">module ps-tree</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.ps-tree.ps-tree" id="apidoc.element.ps-tree.ps-tree">
+        function <span class="apidocSignatureSpan"></span>ps-tree
+        <span class="apidocSignatureSpan">(pid, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function childrenOfPid(pid, callback) {
+  var headers = null;
+
+  if (typeof callback !== &#x27;function&#x27;) {
+    throw new Error(&#x27;childrenOfPid(pid, callback) expects callback&#x27;);
+  }
+
+  if (typeof pid === &#x27;number&#x27;) {
+    pid = pid.toString();
+  }
+
+  //
+  // The `ps-tree` module behaves differently on *nix vs. Windows
+  // by spawning different programs and parsing their output.
+  //
+  // Linux:
+  // 1. &#x22; &#x3c;defunct&#x3e; &#x22; need to be striped
+  // ```bash
+  // $ ps -A -o comm,ppid,pid,stat
+  // COMMAND          PPID   PID STAT
+  // bbsd             2899 16958 Ss
+  // watch &#x3c;defunct&#x3e;  1914 16964 Z
+  // ps              20688 16965 R+
+  // ```
+  //
+  // Win32:
+  // 1. wmic PROCESS WHERE ParentProcessId=4604 GET Name,ParentProcessId,ProcessId,Status)
+  // 2. The order of head columns is fixed
+  // ```shell
+  // &#x3e; wmic PROCESS GET Name,ProcessId,ParentProcessId,Status
+  // Name                          ParentProcessId  ProcessId   Status
+  // System Idle Process           0                0
+  // System                        0                4
+  // smss.exe                      4                228
+  // ```
+
+  var processLister;
+  if (process.platform === &#x27;win32&#x27;) {
+    // See also: https://github.com/nodejs/node-v0.x-archive/issues/2318
+    processLister = spawn(&#x27;wmic.exe&#x27;, [&#x27;PROCESS&#x27;, &#x27;GET&#x27;, &#x27;Name,ProcessId,ParentProcessId,Status&#x27;]);
+  } else {
+    processLister = spawn(&#x27;ps&#x27;, [&#x27;-A&#x27;, &#x27;-o&#x27;, &#x27;ppid,pid,stat,comm&#x27;]);
+  }
+
+  es.connect(
+    // spawn(&#x27;ps&#x27;, [&#x27;-A&#x27;, &#x27;-o&#x27;, &#x27;ppid,pid,stat,comm&#x27;]).stdout,
+    processLister.stdout,
+    es.split(),
+    es.map(function (line, cb) { //this could parse alot of unix command output
+      var columns = line.trim().split(/\s+/);
+      if (!headers) {
+        headers = columns;
+
+        //
+        // Rename Win32 header name, to as same as the linux, for compatible.
+        //
+        headers = headers.map(normalizeHeader);
+        return cb();
+      }
+
+      var row = {};
+      // For each header
+      var h = headers.slice();
+      while (h.length) {
+        row[h.shift()] = h.length ? columns.shift() : columns.join(&#x27; &#x27;);
+      }
+
+      return cb(null, row);
+    }),
+    es.writeArray(function (err, ps) {
+      var parents = [pid],
+          children = [];
+
+      ps.forEach(function (proc) {
+        if (parents.indexOf(proc.PPID) !== -1) {
+          parents.push(proc.PID)
+          children.push(proc)
+        }
+      });
+
+      callback(null, children);
+    })
+  ).on(&#x27;error&#x27;, callback)
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
 
 </div>
 
