@@ -1,9 +1,14 @@
-# api documentation for  [ps-tree (v1.1.0)](http://github.com/indexzero/ps-tree)  [![npm package](https://img.shields.io/npm/v/npmdoc-ps-tree.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-ps-tree) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-ps-tree.svg)](https://travis-ci.org/npmdoc/node-npmdoc-ps-tree)
+# npmdoc-ps-tree
+
+#### api documentation for  [ps-tree (v1.1.0)](http://github.com/indexzero/ps-tree)  [![npm package](https://img.shields.io/npm/v/npmdoc-ps-tree.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-ps-tree) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-ps-tree.svg)](https://travis-ci.org/npmdoc/node-npmdoc-ps-tree)
+
 #### Get all children of a pid
 
-[![NPM](https://nodei.co/npm/ps-tree.png?downloads=true)](https://www.npmjs.com/package/ps-tree)
+[![NPM](https://nodei.co/npm/ps-tree.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/ps-tree)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-ps-tree/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-ps-tree_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-ps-tree/build/apidoc.html)
+- [https://npmdoc.github.io/node-npmdoc-ps-tree/build/apidoc.html](https://npmdoc.github.io/node-npmdoc-ps-tree/build/apidoc.html)
+
+[![apidoc](https://npmdoc.github.io/node-npmdoc-ps-tree/build/screenCapture.buildCi.browser.%252Ftmp%252Fbuild%252Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-ps-tree/build/apidoc.html)
 
 ![npmPackageListing](https://npmdoc.github.io/node-npmdoc-ps-tree/build/screenCapture.npmPackageListing.svg)
 
@@ -17,8 +22,7 @@
 
 {
     "author": {
-        "name": "Charlie Robbins",
-        "email": "charlie.robbins@gmail.com"
+        "name": "Charlie Robbins"
     },
     "bugs": {
         "url": "https://github.com/indexzero/ps-tree/issues"
@@ -26,7 +30,6 @@
     "contributors": [
         {
             "name": "Zhuohuan LI",
-            "email": "zixia@zixia.net",
             "url": "https://github.com/zixia"
         }
     ],
@@ -59,8 +62,7 @@
     "license": "MIT",
     "maintainers": [
         {
-            "name": "indexzero",
-            "email": "charlie.robbins@gmail.com"
+            "name": "indexzero"
         }
     ],
     "name": "ps-tree",
@@ -69,7 +71,6 @@
         "coverage",
         "codeclimate"
     ],
-    "readme": "ERROR: No README data found!",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/indexzero/ps-tree.git"
@@ -80,19 +81,10 @@
         "coverage": "npm test && istanbul check-coverage --statements 100 --functions 100 --lines 100 --branches 100",
         "test": "istanbul cover node_modules/tape/bin/tape test/test.js test/direct.js"
     },
-    "version": "1.1.0"
+    "version": "1.1.0",
+    "bin": {}
 }
 ```
-
-
-
-# <a name="apidoc.tableOfContents"></a>[table of contents](#apidoc.tableOfContents)
-
-#### [module ps-tree](#apidoc.module.ps-tree)
-
-
-
-# <a name="apidoc.module.ps-tree"></a>[module ps-tree](#apidoc.module.ps-tree)
 
 
 
